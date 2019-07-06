@@ -5,7 +5,8 @@
   "description": "API for managing user accounts",
   "main": "handler.js",
   "scripts": {
-    "test": "mocha test/**/*.test.ts"
+    "test": "mocha test/**/*.test.ts",
+    "build": "sls package"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
     "aws-sdk": "^2.477.0",
     "chai": "^4.2.0",
     "mocha": "^6.1.4",
+    "serverless": "^1.46.1",
     "serverless-webpack": "^5.2.0",
     "ts-loader": "^5.3.3",
     "typescript": "^3.5.2",
