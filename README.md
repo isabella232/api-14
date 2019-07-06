@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/ethvault/api.svg?branch=master)](https://travis-ci.org/ethvault/api)
 
 A [serverless.com](https://serverless.com) project that uses TypeScript + AWS Lambda + API Gateway + DynamoDB + S3 
-to manage EthVault accounts and data.
+to manage Ethvault accounts and data.
 
 ## Architecture
 
