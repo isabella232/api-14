@@ -1,0 +1,681 @@
+[ 
+    {
+        "trigger_url": "https://api.runscope.com/radar/a8010890-1be6-413d-ba68-8bd6ebc48667/trigger", 
+        "name": "Update Account Details", 
+        "version": "1.0", 
+        "exported_at": 1562379064, 
+        "steps": [
+            {
+                "body": "{\"client_id\":\"{{TEST_CLIENT_ID}}\",\"client_secret\":\"{{TEST_CLIENT_SECRET}}\",\"audience\":\"{{AUTH0_API_AUDIENCE}}\",\"grant_type\":\"client_credentials\"}", 
+                "skipped": false, 
+                "form": {}, 
+                "headers": {
+                    "content-type": [
+                        "application/json"
+                    ]
+                }, 
+                "url": "https://ethvault.auth0.com/oauth/token", 
+                "variables": [
+                    {
+                        "source": "response_json", 
+                        "property": "access_token", 
+                        "name": "ACCESS_TOKEN"
+                    }, 
+                    {
+                        "source": "response_json", 
+                        "property": "token_type", 
+                        "name": "TOKEN_TYPE"
+                    }
+                ], 
+                "multipart_form": [], 
+                "step_type": "request", 
+                "auth": {}, 
+                "note": "", 
+                "fragment": "", 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": 200, 
+                        "source": "response_status"
+                    }
+                ], 
+                "scripts": [], 
+                "before_scripts": [], 
+                "method": "POST"
+            }, 
+            {
+                "body": "{\r\n  \"name\": \"hello world\",\r\n  \"description\": \"this is my first key\",\r\n  \"encryptedJson\": {\r\n    \"address\": \"57fa708ea49fa9a30b55c65d8e30820d123d363f\",\r\n    \"id\": \"42f88c59-382f-430b-879b-ed61c2c1f650\",\r\n    \"version\": 3,\r\n    \"Crypto\": {\r\n      \"cipher\": \"aes-128-ctr\",\r\n      \"cipherparams\": {\r\n        \"iv\": \"800bc517a8d816db103d40f6cc6c760b\"\r\n      },\r\n      \"ciphertext\": \"d263dec139eb764337c254b87b33f18b344a1b97a901d1bc5da49835065ac67f\",\r\n      \"kdf\": \"scrypt\",\r\n      \"kdfparams\": {\r\n        \"salt\": \"ad0e253a2bbb3e970a200671c607e66f0e898dfc56181cb3d49cd30489519e31\",\r\n        \"n\": 131072,\r\n        \"dklen\": 32,\r\n        \"p\": 1,\r\n        \"r\": 8\r\n      },\r\n      \"mac\": \"7138e8fc7a77a2a2c03ccd28884bfdd15dc5b022b10fb41dabdffb5bece3e194\"\r\n    },\r\n    \"x-ethers\": {\r\n      \"client\": \"ethers.js\",\r\n      \"gethFilename\": \"UTC--2019-06-21T05-53-45.0Z--57fa708ea49fa9a30b55c65d8e30820d123d363f\",\r\n      \"mnemonicCounter\": \"69475563fed78702712c4d48437b5fcd\",\r\n      \"mnemonicCiphertext\": \"e898bbf244d2b653fb79d3fd3c57ef2a\",\r\n      \"version\": \"0.1\"\r\n    }\r\n  }\r\n}\r\n", 
+                "skipped": false, 
+                "form": {}, 
+                "headers": {
+                    "Content-Type": [
+                        "application/json"
+                    ], 
+                    "Authorization": [
+                        "{{TOKEN_TYPE}} {{ACCESS_TOKEN}}"
+                    ]
+                }, 
+                "fragment": "", 
+                "variables": [
+                    {
+                        "source": "response_json", 
+                        "property": "id", 
+                        "name": "ACCOUNT_ID"
+                    }
+                ], 
+                "args": {}, 
+                "step_type": "request", 
+                "auth": {}, 
+                "multipart_form": [], 
+                "note": "", 
+                "url": "{{BASE_API_URL}}/accounts", 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": 200, 
+                        "source": "response_status"
+                    }
+                ], 
+                "scripts": [], 
+                "before_scripts": [], 
+                "data": "", 
+                "method": "POST"
+            }, 
+            {
+                "body": "{\r\n\"name\":\"new name\",\r\n\"description\":\"new description\",\r\n\"version\":1\r\n}", 
+                "skipped": false, 
+                "form": {}, 
+                "headers": {
+                    "Content-Type": [
+                        "application/json"
+                    ], 
+                    "Authorization": [
+                        "{{TOKEN_TYPE}} {{ACCESS_TOKEN}}"
+                    ]
+                }, 
+                "url": "{{BASE_API_URL}}/accounts/{{ACCOUNT_ID}}/details", 
+                "variables": [], 
+                "multipart_form": [], 
+                "step_type": "request", 
+                "auth": {}, 
+                "note": "", 
+                "fragment": "", 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": "200", 
+                        "source": "response_status"
+                    }, 
+                    {
+                        "comparison": "equal", 
+                        "property": "name", 
+                        "value": "new name", 
+                        "source": "response_json"
+                    }, 
+                    {
+                        "comparison": "equal", 
+                        "property": "description", 
+                        "value": "new description", 
+                        "source": "response_json"
+                    }
+                ], 
+                "scripts": [], 
+                "before_scripts": [], 
+                "method": "PUT"
+            }, 
+            {
+                "skipped": false, 
+                "headers": {
+                    "Content-Type": [
+                        "application/json"
+                    ], 
+                    "Authorization": [
+                        "{{TOKEN_TYPE}} {{ACCESS_TOKEN}}"
+                    ]
+                }, 
+                "url": "{{BASE_API_URL}}/accounts/{{ACCOUNT_ID}}", 
+                "variables": [], 
+                "multipart_form": [], 
+                "step_type": "request", 
+                "auth": {}, 
+                "note": "", 
+                "fragment": "", 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": "200", 
+                        "source": "response_status"
+                    }, 
+                    {
+                        "comparison": "equal", 
+                        "property": "name", 
+                        "value": "new name", 
+                        "source": "response_json"
+                    }, 
+                    {
+                        "comparison": "equal", 
+                        "property": "description", 
+                        "value": "new description", 
+                        "source": "response_json"
+                    }, 
+                    {
+                        "comparison": "equal", 
+                        "property": "version", 
+                        "value": "2", 
+                        "source": "response_json"
+                    }
+                ], 
+                "scripts": [], 
+                "before_scripts": [], 
+                "method": "GET"
+            }
+        ], 
+        "description": "Create an account and then update its details"
+    }, 
+    {
+        "trigger_url": "https://api.runscope.com/radar/0029f639-ea97-4a19-8477-5cba7a088c25/trigger", 
+        "name": "Delete Account", 
+        "version": "1.0", 
+        "exported_at": 1562379064, 
+        "steps": [
+            {
+                "body": "{\"client_id\":\"{{TEST_CLIENT_ID}}\",\"client_secret\":\"{{TEST_CLIENT_SECRET}}\",\"audience\":\"{{AUTH0_API_AUDIENCE}}\",\"grant_type\":\"client_credentials\"}", 
+                "skipped": false, 
+                "form": {}, 
+                "headers": {
+                    "content-type": [
+                        "application/json"
+                    ]
+                }, 
+                "url": "https://ethvault.auth0.com/oauth/token", 
+                "variables": [
+                    {
+                        "source": "response_json", 
+                        "property": "access_token", 
+                        "name": "ACCESS_TOKEN"
+                    }, 
+                    {
+                        "source": "response_json", 
+                        "property": "token_type", 
+                        "name": "TOKEN_TYPE"
+                    }
+                ], 
+                "multipart_form": [], 
+                "step_type": "request", 
+                "auth": {}, 
+                "note": "", 
+                "fragment": "", 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": 200, 
+                        "source": "response_status"
+                    }
+                ], 
+                "scripts": [], 
+                "before_scripts": [], 
+                "method": "POST"
+            }, 
+            {
+                "body": "{\r\n  \"name\": \"hello world\",\r\n  \"description\": \"this is my first key\",\r\n  \"encryptedJson\": {\r\n    \"address\": \"57fa708ea49fa9a30b55c65d8e30820d123d363f\",\r\n    \"id\": \"42f88c59-382f-430b-879b-ed61c2c1f650\",\r\n    \"version\": 3,\r\n    \"Crypto\": {\r\n      \"cipher\": \"aes-128-ctr\",\r\n      \"cipherparams\": {\r\n        \"iv\": \"800bc517a8d816db103d40f6cc6c760b\"\r\n      },\r\n      \"ciphertext\": \"d263dec139eb764337c254b87b33f18b344a1b97a901d1bc5da49835065ac67f\",\r\n      \"kdf\": \"scrypt\",\r\n      \"kdfparams\": {\r\n        \"salt\": \"ad0e253a2bbb3e970a200671c607e66f0e898dfc56181cb3d49cd30489519e31\",\r\n        \"n\": 131072,\r\n        \"dklen\": 32,\r\n        \"p\": 1,\r\n        \"r\": 8\r\n      },\r\n      \"mac\": \"7138e8fc7a77a2a2c03ccd28884bfdd15dc5b022b10fb41dabdffb5bece3e194\"\r\n    },\r\n    \"x-ethers\": {\r\n      \"client\": \"ethers.js\",\r\n      \"gethFilename\": \"UTC--2019-06-21T05-53-45.0Z--57fa708ea49fa9a30b55c65d8e30820d123d363f\",\r\n      \"mnemonicCounter\": \"69475563fed78702712c4d48437b5fcd\",\r\n      \"mnemonicCiphertext\": \"e898bbf244d2b653fb79d3fd3c57ef2a\",\r\n      \"version\": \"0.1\"\r\n    }\r\n  }\r\n}\r\n", 
+                "skipped": false, 
+                "form": {}, 
+                "headers": {
+                    "Content-Type": [
+                        "application/json"
+                    ], 
+                    "Authorization": [
+                        "{{TOKEN_TYPE}} {{ACCESS_TOKEN}}"
+                    ]
+                }, 
+                "fragment": "", 
+                "variables": [
+                    {
+                        "source": "response_json", 
+                        "property": "id", 
+                        "name": "ACCOUNT_ID"
+                    }
+                ], 
+                "args": {}, 
+                "step_type": "request", 
+                "auth": {}, 
+                "multipart_form": [], 
+                "note": "", 
+                "url": "{{BASE_API_URL}}/accounts", 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": 200, 
+                        "source": "response_status"
+                    }
+                ], 
+                "scripts": [], 
+                "before_scripts": [], 
+                "data": "", 
+                "method": "POST"
+            }, 
+            {
+                "body": "", 
+                "skipped": false, 
+                "form": {}, 
+                "url": "{{BASE_API_URL}}/accounts/{{ACCOUNT_ID}}", 
+                "variables": [], 
+                "multipart_form": [], 
+                "step_type": "request", 
+                "auth": {}, 
+                "fragment": "", 
+                "note": "", 
+                "headers": {
+                    "Authorization": [
+                        "{{TOKEN_TYPE}} {{ACCESS_TOKEN}}"
+                    ]
+                }, 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": "204", 
+                        "source": "response_status"
+                    }
+                ], 
+                "scripts": [], 
+                "before_scripts": [], 
+                "method": "DELETE"
+            }
+        ], 
+        "description": "Create an account and mark it deleted"
+    }, 
+    {
+        "trigger_url": "https://api.runscope.com/radar/e5dacc06-53e6-47dc-8072-7ca0ae22eccb/trigger", 
+        "name": "Get Encrypted Account Data", 
+        "version": "1.0", 
+        "exported_at": 1562379064, 
+        "steps": [
+            {
+                "body": "{\"client_id\":\"{{TEST_CLIENT_ID}}\",\"client_secret\":\"{{TEST_CLIENT_SECRET}}\",\"audience\":\"{{AUTH0_API_AUDIENCE}}\",\"grant_type\":\"client_credentials\"}", 
+                "skipped": false, 
+                "form": {}, 
+                "headers": {
+                    "content-type": [
+                        "application/json"
+                    ]
+                }, 
+                "url": "https://ethvault.auth0.com/oauth/token", 
+                "variables": [
+                    {
+                        "source": "response_json", 
+                        "property": "access_token", 
+                        "name": "ACCESS_TOKEN"
+                    }, 
+                    {
+                        "source": "response_json", 
+                        "property": "token_type", 
+                        "name": "TOKEN_TYPE"
+                    }
+                ], 
+                "multipart_form": [], 
+                "step_type": "request", 
+                "auth": {}, 
+                "note": "", 
+                "fragment": "", 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": 200, 
+                        "source": "response_status"
+                    }
+                ], 
+                "scripts": [], 
+                "before_scripts": [], 
+                "method": "POST"
+            }, 
+            {
+                "body": "{\r\n  \"name\": \"hello world\",\r\n  \"description\": \"this is my first key\",\r\n  \"encryptedJson\": {\r\n    \"address\": \"57fa708ea49fa9a30b55c65d8e30820d123d363f\",\r\n    \"id\": \"42f88c59-382f-430b-879b-ed61c2c1f650\",\r\n    \"version\": 3,\r\n    \"Crypto\": {\r\n      \"cipher\": \"aes-128-ctr\",\r\n      \"cipherparams\": {\r\n        \"iv\": \"800bc517a8d816db103d40f6cc6c760b\"\r\n      },\r\n      \"ciphertext\": \"d263dec139eb764337c254b87b33f18b344a1b97a901d1bc5da49835065ac67f\",\r\n      \"kdf\": \"scrypt\",\r\n      \"kdfparams\": {\r\n        \"salt\": \"ad0e253a2bbb3e970a200671c607e66f0e898dfc56181cb3d49cd30489519e31\",\r\n        \"n\": 131072,\r\n        \"dklen\": 32,\r\n        \"p\": 1,\r\n        \"r\": 8\r\n      },\r\n      \"mac\": \"7138e8fc7a77a2a2c03ccd28884bfdd15dc5b022b10fb41dabdffb5bece3e194\"\r\n    },\r\n    \"x-ethers\": {\r\n      \"client\": \"ethers.js\",\r\n      \"gethFilename\": \"UTC--2019-06-21T05-53-45.0Z--57fa708ea49fa9a30b55c65d8e30820d123d363f\",\r\n      \"mnemonicCounter\": \"69475563fed78702712c4d48437b5fcd\",\r\n      \"mnemonicCiphertext\": \"e898bbf244d2b653fb79d3fd3c57ef2a\",\r\n      \"version\": \"0.1\"\r\n    }\r\n  }\r\n}\r\n", 
+                "skipped": false, 
+                "form": {}, 
+                "headers": {
+                    "Content-Type": [
+                        "application/json"
+                    ], 
+                    "Authorization": [
+                        "{{TOKEN_TYPE}} {{ACCESS_TOKEN}}"
+                    ]
+                }, 
+                "fragment": "", 
+                "variables": [
+                    {
+                        "source": "response_json", 
+                        "property": "id", 
+                        "name": "ACCOUNT_ID"
+                    }
+                ], 
+                "args": {}, 
+                "step_type": "request", 
+                "auth": {}, 
+                "multipart_form": [], 
+                "note": "", 
+                "url": "{{BASE_API_URL}}/accounts", 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": 200, 
+                        "source": "response_status"
+                    }
+                ], 
+                "scripts": [], 
+                "before_scripts": [], 
+                "data": "", 
+                "method": "POST"
+            }, 
+            {
+                "skipped": false, 
+                "headers": {
+                    "Authorization": [
+                        "{{TOKEN_TYPE}} {{ACCESS_TOKEN}}"
+                    ]
+                }, 
+                "url": "{{BASE_API_URL}}/accounts/{{ACCOUNT_ID}}", 
+                "variables": [], 
+                "multipart_form": [], 
+                "step_type": "request", 
+                "auth": {}, 
+                "note": "", 
+                "fragment": "", 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": "200", 
+                        "source": "response_status"
+                    }, 
+                    {
+                        "comparison": "equal", 
+                        "property": "id", 
+                        "value": "{{ACCOUNT_ID}}", 
+                        "source": "response_json"
+                    }, 
+                    {
+                        "comparison": "not_empty", 
+                        "property": "encryptedJson.Crypto.ciphertext", 
+                        "value": null, 
+                        "source": "response_json"
+                    }
+                ], 
+                "scripts": [], 
+                "before_scripts": [], 
+                "method": "GET"
+            }
+        ], 
+        "description": "Make an authorized call to the get encrypted account data endpoint"
+    }, 
+    {
+        "trigger_url": "https://api.runscope.com/radar/2557241b-370a-4091-a340-d7c550b4ae00/trigger", 
+        "name": "Create Account", 
+        "version": "1.0", 
+        "exported_at": 1562379064, 
+        "steps": [
+            {
+                "body": "{\"client_id\":\"{{TEST_CLIENT_ID}}\",\"client_secret\":\"{{TEST_CLIENT_SECRET}}\",\"audience\":\"{{AUTH0_API_AUDIENCE}}\",\"grant_type\":\"client_credentials\"}", 
+                "skipped": false, 
+                "form": {}, 
+                "url": "https://ethvault.auth0.com/oauth/token", 
+                "variables": [
+                    {
+                        "source": "response_json", 
+                        "property": "access_token", 
+                        "name": "ACCESS_TOKEN"
+                    }, 
+                    {
+                        "source": "response_json", 
+                        "property": "token_type", 
+                        "name": "TOKEN_TYPE"
+                    }
+                ], 
+                "multipart_form": [], 
+                "step_type": "request", 
+                "auth": {}, 
+                "fragment": "", 
+                "note": "", 
+                "headers": {
+                    "content-type": [
+                        "application/json"
+                    ]
+                }, 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": 200, 
+                        "source": "response_status"
+                    }
+                ], 
+                "scripts": [], 
+                "before_scripts": [], 
+                "method": "POST"
+            }, 
+            {
+                "body": "{\r\n  \"name\":\"hello world\",\r\n  \"description\":\"this is my first key\",\r\n  \"encryptedJson\":{\r\n  \"address\": \"57fa708ea49fa9a30b55c65d8e30820d123d363f\",\r\n  \"id\": \"42f88c59-382f-430b-879b-ed61c2c1f650\",\r\n  \"version\": 3,\r\n  \"Crypto\": {\r\n    \"cipher\": \"aes-128-ctr\",\r\n    \"cipherparams\": {\r\n      \"iv\": \"800bc517a8d816db103d40f6cc6c760b\"\r\n    },\r\n    \"ciphertext\": \"d263dec139eb764337c254b87b33f18b344a1b97a901d1bc5da49835065ac67f\",\r\n    \"kdf\": \"scrypt\",\r\n    \"kdfparams\": {\r\n      \"salt\": \"ad0e253a2bbb3e970a200671c607e66f0e898dfc56181cb3d49cd30489519e31\",\r\n      \"n\": 131072,\r\n      \"dklen\": 32,\r\n      \"p\": 1,\r\n      \"r\": 8\r\n    },\r\n    \"mac\": \"7138e8fc7a77a2a2c03ccd28884bfdd15dc5b022b10fb41dabdffb5bece3e194\"\r\n  },\r\n  \"x-ethers\": {\r\n    \"client\": \"ethers.js\",\r\n    \"gethFilename\": \"UTC--2019-06-21T05-53-45.0Z--57fa708ea49fa9a30b55c65d8e30820d123d363f\",\r\n    \"mnemonicCounter\": \"69475563fed78702712c4d48437b5fcd\",\r\n    \"mnemonicCiphertext\": \"e898bbf244d2b653fb79d3fd3c57ef2a\",\r\n    \"version\": \"0.1\"\r\n  }\r\n}\r\n}", 
+                "skipped": false, 
+                "form": {}, 
+                "headers": {
+                    "Content-Type": [
+                        "application/json"
+                    ], 
+                    "Authorization": [
+                        "{{TOKEN_TYPE}} {{ACCESS_TOKEN}}"
+                    ]
+                }, 
+                "fragment": "", 
+                "variables": [], 
+                "args": {}, 
+                "step_type": "request", 
+                "auth": {}, 
+                "multipart_form": [], 
+                "note": "", 
+                "url": "{{BASE_API_URL}}/accounts", 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": 200, 
+                        "source": "response_status"
+                    }, 
+                    {
+                        "comparison": "not_empty", 
+                        "property": "id", 
+                        "value": null, 
+                        "source": "response_json"
+                    }, 
+                    {
+                        "comparison": "equal", 
+                        "property": "address", 
+                        "value": "0x57fa708ea49fa9a30b55c65d8e30820d123d363f", 
+                        "source": "response_json"
+                    }
+                ], 
+                "scripts": [], 
+                "before_scripts": [], 
+                "data": "", 
+                "method": "POST"
+            }
+        ], 
+        "description": "Make an authorized call to the create accounts endpoint"
+    }, 
+    {
+        "trigger_url": "https://api.runscope.com/radar/969b5c5e-7422-4f01-9baa-62a721a96e66/trigger", 
+        "name": "List Accounts", 
+        "version": "1.0", 
+        "exported_at": 1562379064, 
+        "steps": [
+            {
+                "body": "{\"client_id\":\"{{TEST_CLIENT_ID}}\",\"client_secret\":\"{{TEST_CLIENT_SECRET}}\",\"audience\":\"{{AUTH0_API_AUDIENCE}}\",\"grant_type\":\"client_credentials\"}", 
+                "skipped": false, 
+                "form": {}, 
+                "headers": {
+                    "content-type": [
+                        "application/json"
+                    ]
+                }, 
+                "url": "https://ethvault.auth0.com/oauth/token", 
+                "variables": [
+                    {
+                        "source": "response_json", 
+                        "property": "access_token", 
+                        "name": "ACCESS_TOKEN"
+                    }, 
+                    {
+                        "source": "response_json", 
+                        "property": "token_type", 
+                        "name": "TOKEN_TYPE"
+                    }
+                ], 
+                "multipart_form": [], 
+                "step_type": "request", 
+                "auth": {}, 
+                "note": "", 
+                "fragment": "", 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": 200, 
+                        "source": "response_status"
+                    }
+                ], 
+                "scripts": [], 
+                "before_scripts": [], 
+                "method": "POST"
+            }, 
+            {
+                "skipped": false, 
+                "headers": {
+                    "Authorization": [
+                        "{{TOKEN_TYPE}} {{ACCESS_TOKEN}}"
+                    ]
+                }, 
+                "url": "{{BASE_API_URL}}/accounts", 
+                "variables": [], 
+                "args": {}, 
+                "step_type": "request", 
+                "auth": {}, 
+                "multipart_form": [], 
+                "note": "", 
+                "fragment": "", 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": 200, 
+                        "source": "response_status"
+                    }
+                ], 
+                "scripts": [], 
+                "before_scripts": [], 
+                "data": "", 
+                "method": "GET"
+            }
+        ], 
+        "description": "Make an authorized call to the list accounts endpoint"
+    }, 
+    {
+        "trigger_url": "https://api.runscope.com/radar/a50f0dd0-239d-4c05-b221-83f1aacafe07/trigger", 
+        "name": "Debug Request", 
+        "version": "1.0", 
+        "exported_at": 1562379064, 
+        "steps": [
+            {
+                "body": "{\"client_id\":\"{{TEST_CLIENT_ID}}\",\"client_secret\":\"{{TEST_CLIENT_SECRET}}\",\"audience\":\"{{AUTH0_API_AUDIENCE}}\",\"grant_type\":\"client_credentials\"}", 
+                "skipped": false, 
+                "form": {}, 
+                "headers": {
+                    "content-type": [
+                        "application/json"
+                    ]
+                }, 
+                "url": "https://ethvault.auth0.com/oauth/token", 
+                "variables": [
+                    {
+                        "source": "response_json", 
+                        "property": "access_token", 
+                        "name": "ACCESS_TOKEN"
+                    }, 
+                    {
+                        "source": "response_json", 
+                        "property": "token_type", 
+                        "name": "TOKEN_TYPE"
+                    }
+                ], 
+                "multipart_form": [], 
+                "step_type": "request", 
+                "auth": {}, 
+                "note": "", 
+                "fragment": "", 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": 200, 
+                        "source": "response_status"
+                    }
+                ], 
+                "scripts": [], 
+                "before_scripts": [], 
+                "method": "POST"
+            }, 
+            {
+                "skipped": false, 
+                "headers": {
+                    "Authorization": [
+                        "{{TOKEN_TYPE}} {{ACCESS_TOKEN}}"
+                    ]
+                }, 
+                "url": "{{BASE_API_URL}}/debug-request", 
+                "variables": [], 
+                "args": {}, 
+                "step_type": "request", 
+                "auth": {}, 
+                "multipart_form": [], 
+                "note": "", 
+                "fragment": "", 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": 200, 
+                        "source": "response_status"
+                    }
+                ], 
+                "scripts": [], 
+                "before_scripts": [], 
+                "data": "", 
+                "method": "GET"
+            }
+        ], 
+        "description": "Make an authorized call to the debug request endpoint"
+    }, 
+    {
+        "trigger_url": "https://api.runscope.com/radar/72bb581b-04a1-4568-a4fd-06dab8cdd2ce/trigger", 
+        "name": "Unauthorized Debug Request", 
+        "version": "1.0", 
+        "exported_at": 1562379064, 
+        "steps": [
+            {
+                "skipped": false, 
+                "url": "{{BASE_API_URL}}/debug-request", 
+                "variables": [], 
+                "args": {}, 
+                "step_type": "request", 
+                "auth": {}, 
+                "fragment": "", 
+                "note": "", 
+                "headers": {}, 
+                "assertions": [
+                    {
+                        "comparison": "equal_number", 
+                        "value": "401", 
+                        "source": "response_status"
+                    }
+                ], 
+                "scripts": [], 
+                "multipart_form": [], 
+                "before_scripts": [], 
+                "data": "", 
+                "method": "GET"
+            }
+        ], 
+        "description": "Fails because of lack of auth"
+    }
+] 
+

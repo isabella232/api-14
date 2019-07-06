@@ -1,0 +1,41 @@
+{
+  "name": "accounts-api",
+  "private": true,
+  "version": "1.0.0",
+  "description": "API for managing user accounts",
+  "main": "handler.js",
+  "scripts": {
+    "test": "mocha test/**/*.test.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moodysalem/ethvault.git"
+  },
+  "dependencies": {
+    "jointz": "0.0.7",
+    "jsonwebtoken": "^8.5.1",
+    "jwk-to-pem": "^2.0.1",
+    "node-fetch": "^2.6.0",
+    "reattempt": "^0.1.0",
+    "source-map-support": "^0.5.10",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.17",
+    "@types/chai": "^4.1.7",
+    "@types/jsonwebtoken": "^8.3.2",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^10.12.18",
+    "@types/node-fetch": "^2.3.7",
+    "@types/uuid": "^3.4.4",
+    "aws-sdk": "^2.477.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "serverless-webpack": "^5.2.0",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.5.2",
+    "webpack": "^4.29.0"
+  },
+  "author": "Moody Salem <moody.salem@gmail.com>",
+  "license": "UNLICENSED"
+}
