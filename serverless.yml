@@ -15,7 +15,7 @@ custom:
   usersTable: ${self:custom.prefix}-users
   keysBucketName: ${self:custom.prefix}-keys-bucket
   tokenIssuer: ${opt:tokenIssuer, "https://ethvault.auth0.com/"}
-  tokenAudience: ${opt:tokenAudience, "api.ethvault.dev"}
+  tokenAudience: ${opt:tokenAudience, "ethvault-api"}
 
 provider:
   name: aws

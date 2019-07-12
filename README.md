@@ -44,7 +44,7 @@ Get a particular account along with its encrypted JSON. Used when unlocking an a
 
 ## Deployments
 
-Currently the endpoints are deployed to `https://api.ethvault.dev`
+Currently the production endpoints are deployed to `https://api.ethvault.xyz`.
 
 ## Testing
 
