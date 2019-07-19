@@ -32,4 +32,16 @@ export default class EnvironmentVariables {
   static get keysBucket(): string {
     return getEnvString('KEYS_BUCKET_NAME');
   }
+
+  static get ensOwnerPrivateKeyParameterName(): string {
+    return getEnvString('ENS_OWNER_PRIVATE_KEY_PARAMETER_NAME');
+  }
+
+  static get ensContractAddress(): string {
+    return getEnvString('ENS_CONTRACT_ADDRESS');
+  }
+
+  static get ethereumNodeJsonRpcUrl(): string {
+    return getEnvString('ETHEREUM_NODE_JSON_RPC_URL');
+  }
 }

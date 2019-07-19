@@ -40,3 +40,17 @@ export const UpdateAccountParamsValidator = jointz.object().keys({
   description: DescriptionValidator,
   version: VersionValidator,
 }).requiredKeys('name', 'description', 'version');
+
+
+export interface ClaimEnsNameParams {
+  address: string;
+  ensName: string;
+}
+
+const EnsNameValidator = jointz.string().pattern(/^[a-z]+\.ethvault\.xyz$/);
+const AddressHexValidator = jointz.string().pattern(/^0x[a-fA-F0-9]{40}$/);
+
+export const ClaimEnsNameParamsValidator = jointz.object().keys({
+  address: AddressHexValidator,
+  ensName: EnsNameValidator,
+}).requiredKeys('address', 'ensName');

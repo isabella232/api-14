@@ -14,8 +14,11 @@ custom:
   logLevel: ${opt:logLevel, "info"}
   usersTable: ${self:custom.prefix}-users
   keysBucketName: ${self:custom.prefix}-keys-bucket
+  ensOwnerPrivateKeyParameterName: ${self:custom.prefix}-private-key
   tokenIssuer: ${opt:tokenIssuer, "https://ethvault.auth0.com/"}
   tokenAudience: ${opt:tokenAudience, "ethvault-api"}
+  ethereumNodeJsonRpcUrl: ${opt:ethereumNodeJsonRpcUrl, ""}
+  ensContractAddress: ${opt:ensContractAddress, ""}
 
 provider:
   name: aws
@@ -42,6 +45,9 @@ provider:
     TOKEN_ISSUER: ${self:custom.tokenIssuer}
     TOKEN_AUDIENCE: ${self:custom.tokenAudience}
     KEYS_BUCKET_NAME: ${self:custom.keysBucketName}
+    ETHEREUM_NODE_JSON_RPC_URL: ${self:custom.ethereumNodeJsonRpcUrl}
+    ENS_CONTRACT_ADDRESS: ${self:custom.ensContractAddress}
+    ENS_OWNER_PRIVATE_KEY_PARAMETER_NAME: ${self:custom.ensOwnerPrivateKeyParameterName}
 
 functions:
   auth:
