@@ -1,5 +1,5 @@
 {
-  "name": "accounts-api",
+  "name": "@ethvault/api",
   "private": true,
   "version": "1.0.0",
   "description": "API for managing user accounts",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/moodysalem/ethvault.git"
+    "url": "https://github.com/ethvault/api.git"
   },
   "dependencies": {
     "jointz": "0.0.7",
