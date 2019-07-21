@@ -8,7 +8,8 @@ export function applyUniversalHeaders(result: APIGatewayProxyResult): APIGateway
       // We apply cors headers so that this API is available to all domains
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Credentials': true,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Expect-CT': 'enforce, max-age=604800',
     }
   };
 }
