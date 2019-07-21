@@ -6,7 +6,8 @@
   "main": "handler.js",
   "scripts": {
     "test": "mocha test/**/*.test.ts",
-    "build": "sls package"
+    "build": "sls package",
+    "deploy": "sls deploy"
   },
   "repository": {
     "type": "git",
