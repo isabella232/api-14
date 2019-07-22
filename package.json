@@ -3,7 +3,6 @@
   "private": true,
   "version": "1.0.0",
   "description": "API for managing user accounts",
-  "main": "handler.js",
   "scripts": {
     "test": "mocha test/**/*.test.ts",
     "build": "sls package",
