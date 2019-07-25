@@ -32,4 +32,8 @@ export default class EnvironmentVariables {
   static get keysBucket(): string {
     return getEnvString('KEYS_BUCKET_NAME');
   }
+
+  static get ensRegistrarQueueUrl(): string {
+    return getEnvString('ENS_REGISTRAR_QUEUE_URL');
+  }
 }

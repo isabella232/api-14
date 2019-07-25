@@ -11,17 +11,22 @@ export interface CreateAccountParams {
   // Encrypted JSON wallet
   // https://docs.ethers.io/ethers.js/html/api-wallet.html#encrypted-json-wallets
   encryptedJson: EncryptedJson;
+
+  // The desired ENS name for the account.
+  ensName: string;
 }
 
 export const NameValidator = jointz.string().minLength(1).maxLength(100);
 export const DescriptionValidator = jointz.string().minLength(1).maxLength(1000);
 export const VersionValidator = jointz.number().integer().min(1);
+export const EnsNameValidator = jointz.string().pattern(/^[a-z0-9-]+\.ethvault\.xyz$/);
 
 export const CreateAccountParamsValidator = jointz.object().keys({
   name: NameValidator,
   description: DescriptionValidator,
-  encryptedJson: EncryptedJsonValidator
-}).requiredKeys('name', 'description', 'encryptedJson');
+  encryptedJson: EncryptedJsonValidator,
+  ensName: EnsNameValidator,
+}).requiredKeys('name', 'description', 'encryptedJson', 'ensName');
 
 export interface UpdateAccountParams {
   // The new name of the account

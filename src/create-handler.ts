@@ -1,9 +1,9 @@
 import { APIGatewayProxyEvent, APIGatewayProxyHandler } from 'aws-lambda';
 import * as DynamoDB from 'aws-sdk/clients/dynamodb';
 import * as S3 from 'aws-sdk/clients/s3';
+import * as SQS from 'aws-sdk/clients/sqs';
 import { isAuthenticated } from './auth-util';
 import Crud from './crud';
-import EnvironmentVariables from './env';
 import Logger from './logger';
 import { applyUniversalHeaders, createErrorResponse } from './response-util';
 import { OAuthScopes } from './scope-constants';
@@ -58,9 +58,9 @@ export default function createHandler<TResponse = any, TRequest = null>(
     }
 
     const crud = new Crud(
-      EnvironmentVariables.usersTable,
       new DynamoDB.DocumentClient(),
-      new S3()
+      new S3(),
+      new SQS(),
     );
 
     const context: CallbackContext = { crud, userId: user };

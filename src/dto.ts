@@ -23,7 +23,7 @@ export interface IAccountDto {
   address: string;
 
   // The ENS name assigned to the account by ethvault
-  ethvaultEnsName: string | null;
+  ensName: string | null;
 }
 
 export interface IAccountWithEncryptedJsonDto extends IAccountDto {

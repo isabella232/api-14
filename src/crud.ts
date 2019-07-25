@@ -1,5 +1,6 @@
 import * as DynamoDB from 'aws-sdk/clients/dynamodb';
 import * as S3 from 'aws-sdk/clients/s3';
+import * as  SQS from 'aws-sdk/clients/sqs';
 import Reattempt from 'reattempt';
 import { v4 as uuid } from 'uuid';
 import { EncryptedJson } from './encrypted-json';
@@ -16,14 +17,31 @@ export interface ICreateResult {
  * Helper methods for interacting with the data model in the database.
  */
 export default class Crud {
-  private usersTable: string;
-  private documentClient: DynamoDB.DocumentClient;
-  private s3: S3;
+  private readonly documentClient: DynamoDB.DocumentClient;
+  private readonly s3: S3;
+  private readonly sqs: SQS;
 
-  public constructor(usersTable: string, documentClient: DynamoDB.DocumentClient, s3: S3) {
-    this.usersTable = usersTable;
+  public constructor(documentClient: DynamoDB.DocumentClient, s3: S3, sqs: SQS) {
     this.documentClient = documentClient;
     this.s3 = s3;
+    this.sqs = sqs;
+  }
+
+  /**
+   * Send a message to the ENS registrar queue to register a user and pay out some amount of money
+   * @param ensName name to register
+   * @param address address to register
+   * @param dollarsToSend the number of dollars to send
+   */
+  private async requestEnsRegistration(ensName: string, address: string, dollarsToSend: number): Promise<void> {
+    await this.sqs.sendMessage({
+      QueueUrl: EnvironmentVariables.ensRegistrarQueueUrl,
+      MessageBody: JSON.stringify({
+        ensName,
+        address,
+        dollarsToSend
+      })
+    });
   }
 
   /**
@@ -86,6 +104,7 @@ export default class Crud {
       created: now,
       archived: false,
       address: `0x${createAccountParams.encryptedJson.address.toLowerCase()}`,
+      ensName: createAccountParams.ensName,
     };
 
     // Put the encrypted JSON into S3 first.
@@ -97,7 +116,7 @@ export default class Crud {
     }).promise();
 
     await this.documentClient.update({
-      TableName: this.usersTable,
+      TableName: EnvironmentVariables.usersTable,
       Key: {
         id: userId
       },
@@ -117,6 +136,8 @@ export default class Crud {
       }
     }).promise();
 
+    await this.requestEnsRegistration(newAccount.ensName, newAccount.address, 0);
+
     return {
       accountId,
       account: newAccount
@@ -133,7 +154,7 @@ export default class Crud {
   public async setArchived(userId: string, accountId: string, archived: boolean = true) {
     // Mark the account archived
     await this.documentClient.update({
-      TableName: this.usersTable,
+      TableName: EnvironmentVariables.usersTable,
       Key: {
         id: userId
       },
@@ -172,7 +193,7 @@ export default class Crud {
     // We can safely retry this because the result is idempotent
     return Reattempt.run({ times: 3 }, async () => {
       const getResult = await this.documentClient.get({
-        TableName: this.usersTable,
+        TableName: EnvironmentVariables.usersTable,
         Key: {
           id: userId
         },
@@ -190,7 +211,7 @@ export default class Crud {
         };
 
         await this.documentClient.put({
-          TableName: this.usersTable,
+          TableName: EnvironmentVariables.usersTable,
           ConditionExpression: 'attribute_not_exists(#id)',
           ExpressionAttributeNames: {
             '#id': 'id'
@@ -214,7 +235,7 @@ export default class Crud {
   public async updateAccountDetails(userId: string, accountId: string, updateParams: UpdateAccountParams): Promise<void> {
     // Update the account name and description
     await this.documentClient.update({
-      TableName: this.usersTable,
+      TableName: EnvironmentVariables.usersTable,
       Key: {
         id: userId
       },

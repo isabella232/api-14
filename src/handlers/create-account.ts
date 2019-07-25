@@ -23,7 +23,6 @@ export const handler: APIGatewayProxyHandler = createHandler<IAccountDto, Create
       return { isValid: false, errors: [ { message: 'Body is not valid JSON', path: '' } ] };
     }
 
-
     const errors = CreateAccountParamsValidator.validate(parsed);
     if (errors.length > 0) {
       return { isValid: false, errors: errors.map(error => ({ message: error.message, path: error.path })) };

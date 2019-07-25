@@ -35,6 +35,11 @@ provider:
         - s3:PutObject
         - s3:GetObject
       Resource: "arn:aws:s3:::${self:custom.keysBucketName}/*"
+    - Effect: Allow
+      Action:
+        - sqs:SendMessage
+      Resource:
+        'Fn::ImportValue': 'ENSRegistrarQueueArn'
 
   environment:
     LOG_LEVEL: ${self:custom.logLevel}
@@ -42,6 +47,8 @@ provider:
     TOKEN_ISSUER: ${self:custom.tokenIssuer}
     TOKEN_AUDIENCE: ${self:custom.tokenAudience}
     KEYS_BUCKET_NAME: ${self:custom.keysBucketName}
+    ENS_REGISTRAR_QUEUE_URL:
+      'Fn::ImportValue': 'ENSRegistrarQueueUrl'
 
 functions:
   auth:

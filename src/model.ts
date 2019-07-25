@@ -38,4 +38,7 @@ export interface IAccount {
 
   // The address of the private key.
   address: string;
+
+  // The ENS name that was requested by this account (may or may not be registered to the address.)
+  ensName: string;
 }
