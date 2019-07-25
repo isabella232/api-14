@@ -12,7 +12,7 @@ export const handler: APIGatewayProxyHandler = createHandler<IAccountWithEncrypt
   requiredScopes: [ OAuthScopes.READ_ACCOUNTS, OAuthScopes.READ_ENCRYPTED_ACCOUNT_DATA ],
   authenticatedOnly: true,
 
-  validate(event) {
+  async validate(event) {
     const accountId = event.pathParameters !== null ? event.pathParameters[ ACCOUNT_ID_PATH_PARAMETER ] : null;
 
     const validationErrors = jointz.string().uuid().validate(accountId);

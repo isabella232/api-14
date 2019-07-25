@@ -90,13 +90,13 @@ export default class Crud {
    * @param createAccountParams the parameters used to create an account
    */
   public async createAccount(userId: string, createAccountParams: CreateAccountParams): Promise<ICreateResult> {
-    await this.getOrCreateUser(userId);
+    const isFirstAccount: boolean = Object.keys((await this.getOrCreateUser(userId)).accounts).length === 0;
 
     const accountId = uuid().toLowerCase();
 
     const now = Crud.now();
 
-    const newAccount: IAccount = {
+    const newAccount: Readonly<IAccount> = {
       name: createAccountParams.name,
       description: createAccountParams.description,
       version: 1,
@@ -104,7 +104,7 @@ export default class Crud {
       created: now,
       archived: false,
       address: `0x${createAccountParams.encryptedJson.address.toLowerCase()}`,
-      ensName: createAccountParams.ensName,
+      ...(createAccountParams.ensName ? { ensName: createAccountParams.ensName } : null)
     };
 
     // Put the encrypted JSON into S3 first.
@@ -136,7 +136,9 @@ export default class Crud {
       }
     }).promise();
 
-    await this.requestEnsRegistration(newAccount.ensName, newAccount.address, 0);
+    if (newAccount.ensName) {
+      await this.requestEnsRegistration(newAccount.ensName, newAccount.address, isFirstAccount ? 1 : 0);
+    }
 
     return {
       accountId,

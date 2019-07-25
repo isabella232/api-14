@@ -10,7 +10,7 @@ export const handler: APIGatewayProxyHandler = createHandler<IAccountDto, Create
   requiredScopes: [ OAuthScopes.CREATE_ACCOUNT ],
   authenticatedOnly: true,
 
-  validate(event) {
+  async validate(event) {
     const body = event.body;
     if (!body) {
       return { isValid: false, errors: [ { message: 'Body is required', path: '' } ] };

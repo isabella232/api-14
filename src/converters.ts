@@ -10,6 +10,6 @@ export function accountModelToDto(id: string, account: IAccount): IAccountDto {
     updated: account.updated,
     description: account.description,
     address: account.address,
-    ethvaultEnsName: null,
+    ensName: account.ensName || null,
   };
 }

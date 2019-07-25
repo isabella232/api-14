@@ -40,5 +40,5 @@ export interface IAccount {
   address: string;
 
   // The ENS name that was requested by this account (may or may not be registered to the address.)
-  ensName: string;
+  ensName?: string;
 }

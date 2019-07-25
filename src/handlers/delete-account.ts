@@ -10,7 +10,7 @@ export const handler: APIGatewayProxyHandler = createHandler<void>({
   requiredScopes: [ OAuthScopes.DELETE_ACCOUNT ],
   authenticatedOnly: true,
 
-  validate(event) {
+  async validate(event) {
     const accountId = event.pathParameters !== null ? event.pathParameters[ ACCOUNT_ID_PATH_PARAMETER ] : null;
 
     const validationErrors = jointz.string().uuid().validate(accountId);

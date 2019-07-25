@@ -15,7 +15,7 @@ export const handler: APIGatewayProxyHandler = createHandler<IAccountDto, Update
   requiredScopes: [ OAuthScopes.UPDATE_ACCOUNT_DETAILS ],
   authenticatedOnly: true,
 
-  validate(event) {
+  async validate(event) {
     const accountId = event.pathParameters !== null ? event.pathParameters[ ACCOUNT_ID_PATH_PARAMETER ] : null;
 
     const validationErrors = uuidValidator.validate(accountId);
@@ -41,7 +41,6 @@ export const handler: APIGatewayProxyHandler = createHandler<IAccountDto, Update
     } catch (error) {
       return { isValid: false, errors: [ { message: 'Failed to parse body', path: '' } ] };
     }
-
 
     return { isValid: true };
   },

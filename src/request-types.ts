@@ -26,7 +26,7 @@ export const CreateAccountParamsValidator = jointz.object().keys({
   description: DescriptionValidator,
   encryptedJson: EncryptedJsonValidator,
   ensName: EnsNameValidator,
-}).requiredKeys('name', 'description', 'encryptedJson', 'ensName');
+}).requiredKeys('name', 'description', 'encryptedJson');
 
 export interface UpdateAccountParams {
   // The new name of the account

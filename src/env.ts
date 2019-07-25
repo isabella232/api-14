@@ -1,3 +1,8 @@
+/**
+ * Return an environment string or the default value if specified
+ * @param name name of the environment string
+ * @param defaultValue default value to return if not specified
+ */
 function getEnvString(name: string, defaultValue?: string): string {
   const val = process.env[ name ];
 
@@ -12,6 +17,9 @@ function getEnvString(name: string, defaultValue?: string): string {
   return val;
 }
 
+/**
+ * A class that has utility methods for each environment variable that is exposed in this environment
+ */
 export default class EnvironmentVariables {
   static get tokenAudience(): string {
     return getEnvString('TOKEN_AUDIENCE');

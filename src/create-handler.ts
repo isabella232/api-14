@@ -30,7 +30,7 @@ export default function createHandler<TResponse = any, TRequest = null>(
   }: {
     authenticatedOnly: boolean;
     requiredScopes: OAuthScopes[];
-    validate?(event: Readonly<APIGatewayProxyEvent>, context: CallbackContext): ValidationResult;
+    validate?(event: Readonly<APIGatewayProxyEvent>, context: CallbackContext): Promise<ValidationResult>;
     handle(event: Readonly<APIGatewayProxyEvent> & { body: TRequest }, context: CallbackContext): Promise<TResponse> | TResponse;
   }
 ): APIGatewayProxyHandler {
@@ -67,10 +67,14 @@ export default function createHandler<TResponse = any, TRequest = null>(
 
     if (validate) {
       try {
-        const result = validate(event, context);
+        const result = await validate(event, context);
 
         if (!result.isValid) {
-          return createErrorResponse(422, 'Request was not valid.', result.errors);
+          return createErrorResponse(
+            422,
+            `Request failed validation: ${result.errors.map(({ path, message }) => `"${path}" has error ${message}`).join('; ')}`,
+            result.errors
+          );
         }
       } catch (error) {
         Logger.error('A fatal error occurred during validation', error);
