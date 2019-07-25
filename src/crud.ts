@@ -41,7 +41,7 @@ export default class Crud {
         address,
         dollarsToSend
       })
-    });
+    }).promise();
   }
 
   /**
