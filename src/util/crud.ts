@@ -3,10 +3,11 @@ import * as S3 from 'aws-sdk/clients/s3';
 import * as  SQS from 'aws-sdk/clients/sqs';
 import Reattempt from 'reattempt';
 import { v4 as uuid } from 'uuid';
-import { EncryptedJson } from './encrypted-json';
-import EnvironmentVariables from './env';
-import { IAccount, IUser } from './model';
-import { CreateAccountParams, UpdateAccountParams } from './request-types';
+import EnvironmentVariables from '../env';
+import { CreateAccountParams } from '../shapes/create-account-params';
+import { EncryptedJson } from '../shapes/encrypted-json';
+import { IAccount, IUser } from '../shapes/model';
+import { UpdateAccountParams } from '../shapes/update-account';
 
 export interface ICreateResult {
   accountId: string;

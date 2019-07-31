@@ -2,10 +2,10 @@ import { CustomAuthorizerHandler } from 'aws-lambda';
 import * as jwt from 'jsonwebtoken';
 import * as jwkToPem from 'jwk-to-pem';
 import 'source-map-support/register';
-import { FailedAuthorizerResult, SuccessfulAuthorizerResult, unauthorizedWithReason } from './auth-util';
-import EnvironmentVariables from './env';
-import { getWellKnownJwks } from './jwks';
-import Logger from './logger';
+import { FailedAuthorizerResult, SuccessfulAuthorizerResult, unauthorizedWithReason } from '../util/auth-util';
+import EnvironmentVariables from '../env';
+import { getWellKnownJwks } from '../util/jwks';
+import Logger from '../util/logger';
 
 /**
  * Generate an AWS policy to return from the authorizer based on the result of the authentication.

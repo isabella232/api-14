@@ -1,5 +1,5 @@
-import { IAccountDto } from './dto';
-import { IAccount } from './model';
+import { IAccountDto } from '../shapes/account-dto';
+import { IAccount } from '../shapes/model';
 
 export function accountModelToDto(id: string, account: IAccount): IAccountDto {
   return {

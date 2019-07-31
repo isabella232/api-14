@@ -1,8 +1,8 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import jointz from 'jointz';
 import 'source-map-support/register';
-import createHandler from '../create-handler';
-import { OAuthScopes } from '../scope-constants';
+import createHandler from '../util/create-handler';
+import { OAuthScopes } from '../util/scope-constants';
 
 const ACCOUNT_ID_PATH_PARAMETER = 'accountId';
 

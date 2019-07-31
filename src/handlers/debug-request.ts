@@ -1,8 +1,8 @@
 import { APIGatewayProxyEvent, APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
-import createHandler from '../create-handler';
-import { IUser } from '../model';
-import { OAuthScopes } from '../scope-constants';
+import createHandler from '../util/create-handler';
+import { OAuthScopes } from '../util/scope-constants';
+import { IUser } from '../shapes/model';
 
 export const handler: APIGatewayProxyHandler = createHandler<{ user: IUser, event: APIGatewayProxyEvent }>(
   {

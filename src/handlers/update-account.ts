@@ -1,11 +1,11 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import jointz from 'jointz';
 import 'source-map-support/register';
-import { accountModelToDto } from '../converters';
-import createHandler from '../create-handler';
-import { IAccountDto } from '../dto';
-import { UpdateAccountParams, UpdateAccountParamsValidator } from '../request-types';
-import { OAuthScopes } from '../scope-constants';
+import createHandler from '../util/create-handler';
+import { OAuthScopes } from '../util/scope-constants';
+import { IAccountDto } from '../shapes/account-dto';
+import { UpdateAccountParams, UpdateAccountParamsValidator } from '../shapes/update-account';
+import { accountModelToDto } from '../util/converters';
 
 const ACCOUNT_ID_PATH_PARAMETER = 'accountId';
 

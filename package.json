@@ -13,7 +13,7 @@
     "url": "https://github.com/ethvault/api.git"
   },
   "dependencies": {
-    "jointz": "0.0.7",
+    "jointz": "^1.0.2",
     "jsonwebtoken": "^8.5.1",
     "jwk-to-pem": "^2.0.1",
     "node-fetch": "^2.6.0",

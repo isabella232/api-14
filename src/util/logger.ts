@@ -1,4 +1,4 @@
-import EnvironmentVariables from './env';
+import EnvironmentVariables from '../env';
 
 export enum LogLevel {
   trace = 50,

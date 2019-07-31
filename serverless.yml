@@ -52,7 +52,7 @@ provider:
 
 functions:
   auth:
-    handler: src/auth.authorize
+    handler: src/handlers/auth.authorize
 
   debug-request:
     handler: src/handlers/debug-request.handler

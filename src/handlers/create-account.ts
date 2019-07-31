@@ -1,10 +1,10 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
-import { accountModelToDto } from '../converters';
-import createHandler from '../create-handler';
-import { IAccountDto } from '../dto';
-import { CreateAccountParams, CreateAccountParamsValidator } from '../request-types';
-import { OAuthScopes } from '../scope-constants';
+import createHandler from '../util/create-handler';
+import { OAuthScopes } from '../util/scope-constants';
+import { IAccountDto } from '../shapes/account-dto';
+import { CreateAccountParams, CreateAccountParamsValidator } from '../shapes/create-account-params';
+import { accountModelToDto } from '../util/converters';
 
 export const handler: APIGatewayProxyHandler = createHandler<IAccountDto, CreateAccountParams>({
   requiredScopes: [ OAuthScopes.CREATE_ACCOUNT ],

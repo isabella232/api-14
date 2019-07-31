@@ -1,22 +1,3 @@
-export interface IUser {
-  // The user identifier and primary key.
-  id: string;
-
-  // The list of accounts associated with this user.
-  accounts: {
-    [ id: string ]: IAccount;
-  };
-
-  // The version of this user data.
-  version: number;
-
-  // When this user was created.
-  created: number;
-
-  // When this user or any accounts were last updated.
-  updated: number;
-}
-
 export interface IAccount {
   // When this account was created.
   created: number;
@@ -42,3 +23,23 @@ export interface IAccount {
   // The ENS name that was requested by this account (may or may not be registered to the address.)
   ensName?: string;
 }
+
+export interface IUser {
+  // The user identifier and primary key.
+  id: string;
+
+  // The list of accounts associated with this user.
+  accounts: {
+    [ id: string ]: IAccount;
+  };
+
+  // The version of this user data.
+  version: number;
+
+  // When this user was created.
+  created: number;
+
+  // When this user or any accounts were last updated.
+  updated: number;
+}
+

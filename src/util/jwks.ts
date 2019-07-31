@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import EnvironmentVariables from './env';
+import EnvironmentVariables from '../env';
 import Logger from './logger';
 
 interface Key {
