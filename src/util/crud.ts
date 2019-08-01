@@ -8,6 +8,8 @@ import { CreateAccountParams } from '../shapes/create-account-params';
 import { EncryptedJson } from '../shapes/encrypted-json';
 import { IAccount, IUser } from '../shapes/model';
 import { UpdateAccountParams } from '../shapes/update-account';
+import getCurrentTimestamp from './get-current-timestamp';
+import Migrations from './migrations';
 
 export interface ICreateResult {
   accountId: string;
@@ -21,11 +23,13 @@ export default class Crud {
   private readonly documentClient: DynamoDB.DocumentClient;
   private readonly s3: S3;
   private readonly sqs: SQS;
+  private readonly migrations: Migrations;
 
   public constructor(documentClient: DynamoDB.DocumentClient, s3: S3, sqs: SQS) {
     this.documentClient = documentClient;
     this.s3 = s3;
     this.sqs = sqs;
+    this.migrations = new Migrations(documentClient);
   }
 
   /**
@@ -43,13 +47,6 @@ export default class Crud {
         dollarsToSend
       })
     }).promise();
-  }
-
-  /**
-   * Return the current timestamp. Used for create/update operations.
-   */
-  private static now(): number {
-    return (new Date().getTime());
   }
 
   /**
@@ -95,7 +92,7 @@ export default class Crud {
 
     const accountId = uuid().toLowerCase();
 
-    const now = Crud.now();
+    const now = getCurrentTimestamp();
 
     const newAccount: Readonly<IAccount> = {
       name: createAccountParams.name,
@@ -176,7 +173,7 @@ export default class Crud {
       },
       ExpressionAttributeValues: {
         ':archived': archived,
-        ':now': Crud.now(),
+        ':now': getCurrentTimestamp(),
         ':one': 1
       }
     }).promise();
@@ -203,15 +200,9 @@ export default class Crud {
         ConsistentRead: true,
       }).promise();
 
-
+      // Create the user if the user does not exist
       if (!getResult.Item || getResult.Item.id !== userId) {
-        const newUser: IUser = {
-          id: userId,
-          version: 1,
-          created: Crud.now(),
-          updated: Crud.now(),
-          accounts: {}
-        };
+        const newUser = Migrations.getNewUser(userId);
 
         await this.documentClient.put({
           TableName: EnvironmentVariables.usersTable,
@@ -224,7 +215,7 @@ export default class Crud {
 
         return newUser;
       } else {
-        return getResult.Item as IUser;
+        return this.migrations.migrateUser(getResult.Item as IUser);
       }
     });
   }
@@ -268,7 +259,7 @@ export default class Crud {
         ':name': updateParams.name,
         ':description': updateParams.description,
         ':version': updateParams.version,
-        ':now': Crud.now(),
+        ':now': getCurrentTimestamp(),
         ':one': 1
       }
     }).promise();
