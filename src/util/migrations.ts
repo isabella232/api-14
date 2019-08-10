@@ -32,7 +32,7 @@ export default class Migrations {
     const now = getCurrentTimestamp();
     return {
       id,
-      migrationNumber: CURRENT_MIGRATION_NUMBER,
+      nextMigrationNumber: CURRENT_MIGRATION_NUMBER,
       version: 1,
       created: now,
       updated: now,
@@ -45,12 +45,12 @@ export default class Migrations {
   }
 
   private async runMigrations(user: IUser): Promise<IUser> {
-    const starting: number = typeof user.migrationNumber === 'undefined' ? 0 : user.migrationNumber;
+    const starting: number = typeof user.nextMigrationNumber === 'undefined' ? 0 : user.nextMigrationNumber;
 
     for (let i = starting; i < USER_MIGRATIONS.length; i++) {
       const migratedUser = USER_MIGRATIONS[ i ].migrate(user);
 
-      user = await this.saveUser({ ...migratedUser, migrationNumber: i + 1 });
+      user = await this.saveUser({ ...migratedUser, nextMigrationNumber: i + 1 });
     }
 
     return user;

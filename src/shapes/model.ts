@@ -28,8 +28,8 @@ export interface IUser {
   // The user identifier and primary key.
   id: string;
 
-  // This is the number of migrations that have run on the user data model in DynamoDB
-  migrationNumber?: number;
+  // This is the index number of the next migration to run
+  nextMigrationNumber?: number;
 
   // The list of accounts associated with this user.
   accounts: {
