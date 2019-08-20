@@ -3,8 +3,11 @@ import jointz from 'jointz';
 import 'source-map-support/register';
 import createHandler from '../util/create-handler';
 import { OAuthScopes } from '../util/scope-constants';
+import { jointzValidate } from '../util/validation';
 
 const ACCOUNT_ID_PATH_PARAMETER = 'accountId';
+
+const uuidValidator = jointz.string().uuid();
 
 export const handler: APIGatewayProxyHandler = createHandler<void>({
   requiredScopes: [ OAuthScopes.DELETE_ACCOUNT ],
@@ -13,12 +16,7 @@ export const handler: APIGatewayProxyHandler = createHandler<void>({
   async validate(event) {
     const accountId = event.pathParameters !== null ? event.pathParameters[ ACCOUNT_ID_PATH_PARAMETER ] : null;
 
-    const validationErrors = jointz.string().uuid().validate(accountId);
-    if (validationErrors.length > 0) {
-      return { isValid: false, errors: validationErrors.map(error => ({ message: error.message, path: error.path })) };
-    }
-
-    return { isValid: true };
+    return jointzValidate(accountId, uuidValidator);
   },
 
   async handle(event, context): Promise<void> {

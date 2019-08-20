@@ -1,41 +1,7 @@
-import jointz from 'jointz';
+import jointz, { ExtractResultType } from 'jointz';
 
-export interface CipherParams {
-  iv: string;
-}
-
-export interface KdfParams {
-  salt: string;
-  n: number;
-  dklen: number;
-  p: number;
-  r: number;
-}
-
-export interface Crypto {
-  cipher: string;
-  cipherparams: CipherParams;
-  ciphertext: string;
-  kdf: string;
-  kdfparams: KdfParams;
-  mac: string;
-}
-
-export interface XEthers {
-  client: string;
-  gethFilename: string;
-  mnemonicCounter: string;
-  mnemonicCiphertext: string;
-  version: string;
-}
-
-export interface EncryptedJson {
-  address: string;
-  id: string;
-  version: number;
-  Crypto: Crypto;
-  'x-ethers'?: XEthers;
-}
+export type Crypto = ExtractResultType<typeof CryptoValidator>;
+export type EncryptedJson = ExtractResultType<typeof EncryptedJsonValidator>;
 
 export const HexValidator = jointz.string().pattern(/^[a-fA-F0-9]+$/);
 export const AddressHexOnlyValidator = HexValidator.minLength(40).maxLength(40);
@@ -46,9 +12,10 @@ export const XEthersValidator = jointz.object({
   client: jointz.constant('ethers.js'),
   gethFilename: jointz.string(),
   mnemonicCounter: SixteenByteHexValidator,
-  mnemonicCiphertet: SixteenByteHexValidator,
+  mnemonicCiphertext: SixteenByteHexValidator,
   version: jointz.constant('0.1')
-}).requiredKeys('client', 'gethFilename', 'mnemonicCounter', 'mnemonicCiphertext', 'version');
+})
+  .requiredKeys('client', 'gethFilename', 'mnemonicCounter', 'mnemonicCiphertext', 'version');
 
 export const CipherParamsValidator = jointz.object({
   iv: SixteenByteHexValidator
