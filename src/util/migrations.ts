@@ -1,4 +1,5 @@
 import * as DynamoDB from 'aws-sdk/clients/dynamodb';
+import { mapValues, omit } from 'lodash';
 import EnvironmentVariables from '../env';
 import { IUser } from '../shapes/model';
 import getCurrentTimestamp from './get-current-timestamp';
@@ -12,6 +13,23 @@ const USER_MIGRATIONS: UserMigration[] = [
   {
     migrate(user: IUser): IUser {
       return user;
+    }
+  },
+  // Remove the ENS names which are for the older ENS domain
+  {
+    migrate(user: IUser): IUser {
+      return {
+        ...user,
+        accounts: mapValues(
+          user.accounts,
+          account => {
+            if (account.ensName && account.ensName.match(/^.*\.ethvault\.xyz$/g)) {
+              return omit(account, [ 'ensName' ]);
+            } else {
+              return account;
+            }
+          })
+      };
     }
   }
 ];
