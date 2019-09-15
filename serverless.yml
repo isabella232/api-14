@@ -305,6 +305,31 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: true
 
+  v1-delete-account:
+    handler: src/handlers/delete-account.handler
+    events:
+      - http:
+          method: delete
+          path: v1/accounts/{accountId}
+          request:
+            parameters:
+              paths:
+                accountId: true
+          authorizer:
+            name: auth
+            resultTtlInSeconds: ${self:custom.authTtl}
+            type: request
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true
+
 
 resources:
   Resources:
