@@ -5,7 +5,7 @@ import { IAccountWithEncryptedJsonDto } from '../shapes/account-dto';
 import { accountModelToDto } from '../util/converters';
 import createHandler from '../util/create-handler';
 import { OAuthScopes } from '../util/scope-constants';
-import { jointzValidate } from '../util/validation';
+import { createValidationResult } from '../util/validation';
 
 const ACCOUNT_ID_PATH_PARAMETER = 'accountId';
 const uuidValidator = jointz.string().uuid();
@@ -17,7 +17,7 @@ export const handler: APIGatewayProxyHandler = createHandler<IAccountWithEncrypt
   async validate(event) {
     const accountId = event.pathParameters !== null ? event.pathParameters[ ACCOUNT_ID_PATH_PARAMETER ] : null;
 
-    return jointzValidate(accountId, uuidValidator);
+    return createValidationResult(accountId, uuidValidator);
   },
 
   async handle(event, context): Promise<IAccountWithEncryptedJsonDto> {

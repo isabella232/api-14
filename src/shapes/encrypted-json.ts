@@ -14,12 +14,13 @@ export const XEthersValidator = jointz.object({
   mnemonicCounter: SixteenByteHexValidator,
   mnemonicCiphertext: SixteenByteHexValidator,
   version: jointz.constant('0.1')
-})
-  .requiredKeys('client', 'gethFilename', 'mnemonicCounter', 'mnemonicCiphertext', 'version');
+}).requiredKeys('client', 'gethFilename', 'mnemonicCounter', 'mnemonicCiphertext', 'version')
+  .allowUnknownKeys(true);
 
 export const CipherParamsValidator = jointz.object({
   iv: SixteenByteHexValidator
-}).requiredKeys('iv');
+}).requiredKeys('iv')
+  .allowUnknownKeys(true);
 
 export const KdfParamsValidator = jointz.object({
   salt: ThirtyTwoByteHexValidator,
@@ -27,7 +28,8 @@ export const KdfParamsValidator = jointz.object({
   dklen: jointz.constant(32),
   p: jointz.number().integer(),
   r: jointz.number().integer()
-}).requiredKeys('salt', 'n', 'p', 'r', 'dklen');
+}).requiredKeys('salt', 'n', 'p', 'r', 'dklen')
+  .allowUnknownKeys(true);
 
 export const CryptoValidator = jointz.object({
   cipher: jointz.constant('aes-128-ctr'),
@@ -36,7 +38,8 @@ export const CryptoValidator = jointz.object({
   kdf: jointz.constant('scrypt'),
   kdfparams: KdfParamsValidator,
   mac: ThirtyTwoByteHexValidator
-}).requiredKeys('cipher', 'cipherparams', 'ciphertext', 'kdf', 'kdfparams', 'mac');
+}).requiredKeys('cipher', 'cipherparams', 'ciphertext', 'kdf', 'kdfparams', 'mac')
+  .allowUnknownKeys(true);
 
 export const EncryptedJsonValidator = jointz.object({
   address: AddressHexOnlyValidator,
@@ -44,4 +47,5 @@ export const EncryptedJsonValidator = jointz.object({
   version: jointz.constant(3),
   Crypto: CryptoValidator,
   'x-ethers': XEthersValidator
-}).requiredKeys('address', 'id', 'version', 'Crypto');
+}).requiredKeys('address', 'id', 'version', 'Crypto')
+  .allowUnknownKeys(true);

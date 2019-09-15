@@ -6,7 +6,7 @@ import { UpdateAccountParams, UpdateAccountParamsValidator } from '../shapes/upd
 import { accountModelToDto } from '../util/converters';
 import createHandler from '../util/create-handler';
 import { OAuthScopes } from '../util/scope-constants';
-import { jointzValidate, parseBodyAndJointzValidate } from '../util/validation';
+import { createValidationResult, parseBodyAndJointzValidate } from '../util/validation';
 
 const ACCOUNT_ID_PATH_PARAMETER = 'accountId';
 
@@ -19,7 +19,7 @@ export const handler: APIGatewayProxyHandler = createHandler<IAccountDto, Update
   async validate(event) {
     const accountId = event.pathParameters !== null ? event.pathParameters[ ACCOUNT_ID_PATH_PARAMETER ] : null;
 
-    const result = jointzValidate(accountId, uuidValidator);
+    const result = createValidationResult(accountId, uuidValidator);
     if (!result.isValid) {
       return result;
     }

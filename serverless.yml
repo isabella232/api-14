@@ -75,12 +75,58 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: true
 
+  v1-debug-request:
+    handler: src/handlers/debug-request.handler
+    events:
+      - http:
+          method: get
+          path: v1/debug-request
+          authorizer:
+            name: auth
+            resultTtlInSeconds: ${self:custom.authTtl}
+            type: request
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true
+
   list-accounts:
     handler: src/handlers/list-accounts.handler
     events:
       - http:
           method: get
           path: accounts
+          request:
+            parameters:
+              querystrings:
+                includeArchived: false
+          authorizer:
+            name: auth
+            resultTtlInSeconds: ${self:custom.authTtl}
+            type: request
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true
+
+  v1-list-accounts:
+    handler: src/handlers/list-accounts.handler
+    events:
+      - http:
+          method: get
+          path: v1/accounts
           request:
             parameters:
               querystrings:
@@ -121,6 +167,27 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: true
 
+  v1-create-account:
+    handler: src/handlers/create-account.handler
+    events:
+      - http:
+          method: post
+          path: v1/accounts
+          authorizer:
+            name: auth
+            resultTtlInSeconds: ${self:custom.authTtl}
+            type: request
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true
+
   update-account:
     handler: src/handlers/update-account.handler
     events:
@@ -142,12 +209,58 @@ functions:
               - X-Amz-User-Agent
             allowCredentials: true
 
+  v1-update-account:
+    handler: src/handlers/update-account.handler
+    events:
+      - http:
+          method: put
+          path: v1/accounts/{accountId}/details
+          authorizer:
+            name: auth
+            resultTtlInSeconds: ${self:custom.authTtl}
+            type: request
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true
+
   get-account-encrypted-json:
     handler: src/handlers/get-account-encrypted-json.handler
     events:
       - http:
           method: get
           path: accounts/{accountId}
+          request:
+            parameters:
+              paths:
+                accountId: true
+          authorizer:
+            name: auth
+            resultTtlInSeconds: ${self:custom.authTtl}
+            type: request
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true
+
+  v1-get-account-encrypted-json:
+    handler: src/handlers/get-encrypted-json.handler
+    events:
+      - http:
+          method: get
+          path: v1/accounts/{accountId}/encrypted-json
           request:
             parameters:
               paths:

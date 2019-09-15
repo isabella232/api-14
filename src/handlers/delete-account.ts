@@ -3,7 +3,7 @@ import jointz from 'jointz';
 import 'source-map-support/register';
 import createHandler from '../util/create-handler';
 import { OAuthScopes } from '../util/scope-constants';
-import { jointzValidate } from '../util/validation';
+import { createValidationResult } from '../util/validation';
 
 const ACCOUNT_ID_PATH_PARAMETER = 'accountId';
 
@@ -16,7 +16,7 @@ export const handler: APIGatewayProxyHandler = createHandler<void>({
   async validate(event) {
     const accountId = event.pathParameters !== null ? event.pathParameters[ ACCOUNT_ID_PATH_PARAMETER ] : null;
 
-    return jointzValidate(accountId, uuidValidator);
+    return createValidationResult(accountId, uuidValidator);
   },
 
   async handle(event, context): Promise<void> {

@@ -71,7 +71,7 @@ export default function createHandler<TResponse = any, TRequest = null>(
 
         if (!result.isValid) {
           return createErrorResponse(
-            422,
+            400,
             `Request failed validation: ${result.errors.map(({ path, message }) => `"${path}" has error ${message}`).join('; ')}`,
             result.errors
           );

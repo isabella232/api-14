@@ -19,6 +19,11 @@ export interface ValidationResultFalse extends ValidationResultBase {
 
 export type ValidationResult = ValidationResultFalse | ValidationResultTrue;
 
+/**
+ * Parse the json body of a request and return a validation result
+ * @param json json to check
+ * @param validator validator to use
+ */
 export function parseBodyAndJointzValidate<T extends Validator<any>>(json: string | null, validator: T): ValidationResult {
   if (!json) {
     return { isValid: false, errors: [ { message: 'Request body is required', path: [] } ] };
@@ -31,10 +36,15 @@ export function parseBodyAndJointzValidate<T extends Validator<any>>(json: strin
     return { isValid: false, errors: [ { message: `Request body is not valid JSON: ${error.message}`, path: [] } ] };
   }
 
-  return jointzValidate(parsed, validator);
+  return createValidationResult(parsed, validator);
 }
 
-export function jointzValidate<T extends Validator<any>>(value: any, validator: T): ValidationResult {
+/**
+ * Creates a validation result by passing a value through a validator
+ * @param value value to validate
+ * @param validator validator to use
+ */
+export function createValidationResult<T extends Validator<any>>(value: any, validator: T): ValidationResult {
   const errors = validator.validate(value);
 
   if (errors.length > 0) {
