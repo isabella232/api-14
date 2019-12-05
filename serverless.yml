@@ -19,7 +19,7 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
   memorySize: 128
   logRetentionInDays: 7
 
