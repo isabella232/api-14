@@ -28,7 +28,7 @@
     "@types/node": "^10.12.18",
     "@types/node-fetch": "^2.3.7",
     "@types/uuid": "^3.4.4",
-    "aws-sdk": "^2.477.0",
+    "aws-sdk": "^2.814.0",
     "chai": "^4.2.0",
     "jointz": "^5.1.0",
     "mocha": "^6.1.4",
